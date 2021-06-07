@@ -3,13 +3,26 @@ import http = require('http');
 import { Server } from 'socket.io';
 
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+	cors: {
+	  origin: "http://localhost:3000",
+	  methods: ["GET", "POST"],
+	  allowedHeaders: ["document-events"],
+	  credentials: true
+	}
+  });
 
 const PORT = process.env.PORT || 7890;
 
 io.on('connection', socket => {
+	console.log('a connection!');
+
 	socket.on('chat message', msg => {
 		io.emit('chat message', msg);
+	});
+	
+	socket.on('document event', value => {
+		io.emit('document event', value);
 	});
 });
 
