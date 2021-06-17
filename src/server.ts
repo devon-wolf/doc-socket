@@ -21,8 +21,8 @@ io.on('connection', socket => {
 		io.emit('chat message', msg);
 	});
 	
-	socket.on('document event', value => {
-		io.emit('document event', value);
+	socket.on('outgoing change', value => {
+		socket.broadcast.emit('incoming change', value);
 	});
 });
 
