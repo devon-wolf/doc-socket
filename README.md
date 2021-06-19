@@ -1,4 +1,3 @@
-# socket-sandbox
-Playing with Socket.io
+# doc-socket
 
-Worth noting - this build script doesn't include copying `index.html` into the `/dist` folder with the transpiled JS, so this cannot be built as-is.
+A backend for a live, collaborative document editor, using socket.io, Express, and PostgreSQL.
