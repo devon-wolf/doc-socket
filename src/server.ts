@@ -16,10 +16,6 @@ const PORT = process.env.PORT || 7890;
 
 io.on('connection', socket => {
 	console.log('a connection!');
-
-	socket.on('chat message', msg => {
-		io.emit('chat message', msg);
-	});
 	
 	socket.on('outgoing change', value => {
 		socket.broadcast.emit('incoming change', value);
