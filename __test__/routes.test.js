@@ -1,6 +1,6 @@
-const pool = require('../lib/utils/pool');
-const setup = require('../data/setup');
-const app = require('../lib/app');
+const pool = require('../src/lib/utils/pool');
+const setup = require('../src/data/setup');
+const app = require('../src/lib/app');
 const request = require('supertest');
 
 describe('document routes', () => {

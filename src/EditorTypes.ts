@@ -19,3 +19,8 @@ type CodeElement = {
 type CustomElement = ParagraphElement | CodeElement;
 
 export type Descendant = CustomElement | CustomText;
+
+export type IncomingDocument = {
+	title : string,
+	body : Descendant[]
+}
