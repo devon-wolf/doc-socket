@@ -18,7 +18,7 @@ const io = new Server(server, {
 let megaDoc: Descendant[] = [
 	{
 		type: 'paragraph',
-		children: [{ text: 'A line of text in a paragraph' }]
+		children: [{ text: '' }]
 	}
 ];
 
@@ -35,7 +35,7 @@ io.on('connection', socket => {
 		console.log('new doc request received', docTitle);
 		await createDoc(docTitle, megaDoc);
 		socket.emit('socket status', 'document maybe created');
-	})
+	});
 });
 
 export default server;
