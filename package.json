@@ -8,16 +8,13 @@
     "test:watch": "npm run test -- --watch",
     "build": "tsc",
     "start": "node -r dotenv/config ./dist/server.js",
-    "start:watch": "concurrently \"tsc -w\" \"nodemon -r dotenv/config ./dist/server.js\"",
-    "setup-db": "node -r dotenv/config ./dist/setup-db.js",
-    "setup-heroku": "heroku run npm run setup-db"
+    "start:watch": "concurrently \"tsc -w\" \"nodemon -r dotenv/config ./dist/server.js\""
   },
   "keywords": [],
   "author": "",
   "license": "GPL",
   "devDependencies": {
     "@types/express": "^4.17.12",
-    "@types/pg": "^8.6.0",
     "@types/supertest": "^2.0.11",
     "concurrently": "^6.2.0",
     "jest": "^27.0.4",
@@ -29,7 +26,6 @@
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
-    "pg": "^8.6.0",
     "socket.io": "^4.1.2"
   }
 }
