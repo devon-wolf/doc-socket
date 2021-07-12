@@ -1,20 +1,21 @@
 import { Descendant } from '../../EditorTypes'
 import request from 'superagent';
 
-const URL = process.env.API_URL || 'http://localhost:8080'
+const URL = `${process.env.API_URL}/api/v1/documents` || 'http://localhost:8080'
 
-export const createDoc = async (doc: Descendant[]) => {
+export const createDoc = async (title: string, doc: Descendant[]) => {
+	console.log('Trying to create a doc at ', URL);
 	const { body } = await request
 		.post(URL)
-		.send(JSON.stringify(doc));
+		.send({ title, body: JSON.stringify(doc) });
 
 	return body;
 };
 
-export const updateDoc = async (id: string, doc: Descendant[]) => {
+export const updateDoc = async (id: string, title: string, doc: Descendant[]) => {
 	const { body } = await request
 		.put(`${URL}/${id}`)
-		.send(JSON.stringify(doc));
+		.send({ title, body: JSON.stringify(doc) });
 	
 	return body;
 };
