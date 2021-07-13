@@ -2,7 +2,7 @@ import app = require('./lib/app');
 import http = require('http');
 import { Server } from 'socket.io';
 import { Descendant } from './EditorTypes';
-import { createDoc } from './lib/services/api-requests';
+import { createDoc, getDocById } from './lib/services/api-requests';
 
 const server = http.createServer(app);
 
@@ -24,7 +24,13 @@ let megaDoc: Descendant[] = [
 
 io.on('connection', socket => {
 	console.log('a connection!');
-	socket.emit('doc status', megaDoc);
+	socket.emit('connection');
+
+	socket.on('fetch request', async (id: string) => {
+		console.log(`I should be fetching document ${id}`);
+		const requestedDoc = await getDocById(id);
+		socket.emit('socket response', requestedDoc.body);
+	})
 
 	socket.on('client change', (value: Descendant[]) => {
 		megaDoc = value;
