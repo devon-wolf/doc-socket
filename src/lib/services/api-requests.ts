@@ -1,4 +1,4 @@
-import { Descendant } from '../../EditorTypes'
+import { Descendant } from '../../types'
 import request from 'superagent';
 
 const URL = `${process.env.API_URL}/api/v1/documents` || 'http://localhost:8080'

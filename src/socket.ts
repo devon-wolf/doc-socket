@@ -1,7 +1,7 @@
 import app = require('./lib/app');
 import http = require('http');
 import { Server } from 'socket.io';
-import { Descendant } from './EditorTypes';
+import { Descendant, ActiveDocuments } from './types';
 import { createDoc, getDocById } from './lib/services/api-requests';
 
 const server = http.createServer(app);
@@ -15,6 +15,8 @@ const io = new Server(server, {
 	}
 });
 
+const activeDocuments: ActiveDocuments = {};
+
 let megaDoc: Descendant[] = [
 	{
 		type: 'paragraph',
@@ -27,14 +29,21 @@ io.on('connection', socket => {
 	socket.emit('connection');
 
 	socket.on('fetch request', async (id: string) => {
-		console.log(`I should be fetching document ${id}`);
-		const requestedDoc = await getDocById(id);
-		socket.emit('socket response', requestedDoc.body);
-	})
+		if (activeDocuments[id]) {
+			socket.emit('socket response', { id, newValue: activeDocuments[id].body })
+		}
+		else {
+			const requestedDoc = await getDocById(id);
+			activeDocuments[id] = requestedDoc;
+			socket.emit('socket response', { id, newValue: requestedDoc.body });
+		}
+	});
 
-	socket.on('client change', (value: Descendant[]) => {
-		megaDoc = value;
-		socket.broadcast.emit('socket change', value);
+	socket.on('client change', (update: { id: string, newValue: Descendant[] }) => {
+		const { id, newValue } = update;
+		const currentDoc = activeDocuments[id];
+		currentDoc.body = newValue;
+		socket.broadcast.emit('socket change', {id, newValue});
 	});
 
 	socket.on('new doc', async (docTitle: string) => {
