@@ -1,11 +1,13 @@
-import express = require('express');
-import cors = require('cors');
+import express from 'express';
+import cors from 'cors';
+import { handleError, handleNotFound } from './middleware/error-handling';
+
 const app = express();
 
 app.use(cors);
 app.use(express.urlencoded({ extended: false }));
 
-app.use(require('./middleware/not-found'));
-app.use(require('./middleware/error'));
+app.use(handleNotFound);
+app.use(handleError);
 
-module.exports = app;
+export default app;
